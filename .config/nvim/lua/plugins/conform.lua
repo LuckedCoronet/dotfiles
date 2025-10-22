@@ -1,17 +1,17 @@
 local prettier = { "prettierd", "prettier", stop_after_first = true }
 
 return {
-	'stevearc/conform.nvim',
-	event = { 'BufWritePre' },
-	cmd = { 'ConformInfo' },
+	"stevearc/conform.nvim",
+	event = { "BufWritePre" },
+	cmd = { "ConformInfo" },
 	keys = {
 		{
-			'<leader>f',
+			"<leader>F",
 			function()
-				require('conform').format { async = true, lsp_format = 'fallback' }
+				require("conform").format({ async = true, lsp_format = "fallback" })
 			end,
-			mode = '',
-			desc = 'Format Document',
+			mode = "",
+			desc = "Format Document",
 		},
 	},
 	opts = {
@@ -26,12 +26,12 @@ return {
 			else
 				return {
 					timeout_ms = 500,
-					lsp_format = 'fallback',
+					lsp_format = "fallback",
 				}
 			end
 		end,
 		formatters_by_ft = {
-			lua = { 'stylua' },
+			lua = { "stylua" },
 			javascript = prettier,
 			typescript = prettier,
 			json = prettier,
