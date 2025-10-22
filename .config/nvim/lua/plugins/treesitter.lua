@@ -16,6 +16,11 @@ return {
 			'vim',
 			'vimdoc',
 			'jsdoc',
+			'git_config',
+			'git_rebase',
+			'gitattributes',
+			'gitcommit',
+			'gitignore',
 		},
 		auto_install = true,
 		highlight = {
