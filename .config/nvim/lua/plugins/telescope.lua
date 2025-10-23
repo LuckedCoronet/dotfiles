@@ -18,6 +18,16 @@ return {
 				mappings = {
 					i = { ["<c-enter>"] = "to_fuzzy_refine" },
 				},
+				vimgrep_arguments = {
+					"rg",
+					"--hidden",
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+					"--smart-case",
+				},
 			},
 			pickers = {},
 			extensions = {
@@ -36,7 +46,11 @@ return {
 		vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "Search Keymaps" })
 		vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "Find existing buffers" })
 		vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "Telescope" })
-		vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "Search Files" })
+		vim.keymap.set("n", "<leader>sf", function()
+			builtin.find_files({
+				find_command = { "rg", "--files", "--iglob", "!.git", "--hidden" },
+			})
+		end, { desc = "Search Files" })
 		vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "Search current Word" })
 		vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "Search by Grep" })
 		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "Search Diagnostics" })
