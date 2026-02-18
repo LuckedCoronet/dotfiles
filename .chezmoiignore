@@ -8,4 +8,8 @@ README.md
 .bashrc.d
 {{ end }}
 
+{{ if eq .chezmoi.os "linux" }}
+.config/pwsh
+{{ end }}
+
 # vim: set filetype=gitignore :
