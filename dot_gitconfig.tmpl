@@ -1,0 +1,16 @@
+[user]
+	email = lc45@lc-studios.net
+	name = LuckedCoronet
+
+[core]
+	editor = nvim
+
+[credential]
+{{- if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+	# In WSL: use GCM on the Windows side
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+{{- else }}
+	helper = manager
+{{- end }}
+
+# vim: set filetype=gitconfig :

@@ -1,0 +1,11 @@
+**/.editorconfig
+.DS_Store
+.git
+README.md
+
+{{ if eq .chezmoi.os "windows" }}
+.bashrc
+.bashrc.d
+{{ end }}
+
+# vim: set filetype=gitignore :
