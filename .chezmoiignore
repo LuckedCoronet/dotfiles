@@ -1,5 +1,6 @@
 **/.editorconfig
 .DS_Store
+.config/zellij/config.kdl.bak*
 .git
 README.md
 
