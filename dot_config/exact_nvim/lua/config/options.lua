@@ -1,7 +1,7 @@
 -- [[ UI & Windows ]]
 
 vim.opt.title = true
-vim.opt.titlestring = "nvim" -- Set the process title strictly to "nvim"
+vim.opt.titlestring = "nvim"
 vim.opt.signcolumn = "yes"
 vim.opt.showmode = false
 vim.opt.number = true
@@ -10,16 +10,20 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.inccommand = "split" -- Live preview of substitute commands
+vim.opt.inccommand = "split"
 
 -- [[ Formatting & Visuals ]]
 
-vim.opt.expandtab = false -- Use tab characters for indent (by default)
-vim.opt.tabstop = 4 -- A tab character looks like 4 spaces
+-- Use physical tabs instead of spaces
+vim.opt.expandtab = false
+
+-- Set tab width and indentation size to 4 columns
+vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
-vim.opt.breakindent = true -- Preserve indentation for wrapped lines
-vim.opt.list = true -- Show invisible characters
+
+-- Show invisible characters
+vim.opt.list = true
 vim.opt.listchars = {
 	tab = "» ",
 	trail = "·",
@@ -44,12 +48,3 @@ vim.opt.undofile = true
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
-
--- Highlight when yanking (copying) text
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-	callback = function()
-		vim.hl.on_yank()
-	end,
-})

@@ -19,16 +19,10 @@ return {
 			-- mini.pairs
 			require("mini.pairs").setup()
 
-			-- mini.splitjoin
-			require("mini.splitjoin").setup()
-
 			-- mini.surround
 			require("mini.surround").setup()
 
 			-- [[ General Workflow ]]
-
-			-- mini.bufremove
-			require("mini.bufremove").setup()
 
 			-- mini.files
 			require("mini.files").setup({
@@ -54,30 +48,32 @@ return {
 			})
 
 			vim.keymap.set("n", "<leader>e", function()
-				MiniFiles.open(vim.api.nvim_buf_get_name(0))
+				MiniFiles.open(MiniFiles.get_latest_path())
 			end, { desc = "Open file explorer" })
 
+			vim.keymap.set("n", "<leader>E", function()
+				MiniFiles.open(vim.api.nvim_buf_get_name(0))
+			end, { desc = "Reveal current file in explorer" })
+
+			local function open_externally()
+				local entry = MiniFiles.get_fs_entry()
+				if not entry or not entry.path then
+					return
+				end
+				
+				local _, err = vim.ui.open(entry.path)
+				if err then
+					vim.notify("Failed to open externally: " .. err, vim.log.levels.ERROR)
+				end
+			end
+
+			local minifiles_augroup = vim.api.nvim_create_augroup("MiniFilesCustom", { clear = true })
+			
 			vim.api.nvim_create_autocmd("User", {
+				group = minifiles_augroup,
 				pattern = "MiniFilesBufferCreate",
+				desc = "Sets a keymap to open files/folders externally",
 				callback = function(args)
-					local open_externally = function()
-						local entry = MiniFiles.get_fs_entry()
-						if not entry then
-							return
-						end
-
-						local path = entry.path
-
-						-- Special treatment for folders on win32 systems
-						if vim.fn.has("win32") == 1 and entry.fs_type == "directory" then
-							local win32_path = path:gsub("/", "\\")
-							vim.fn.system('explorer.exe "' .. win32_path .. '"')
-							return
-						end
-
-						vim.ui.open(path)
-					end
-
 					vim.keymap.set("n", "gx", open_externally, {
 						buffer = args.data.buf_id,
 						desc = "Open externally",
