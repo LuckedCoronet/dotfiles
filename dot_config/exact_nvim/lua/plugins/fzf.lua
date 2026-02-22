@@ -1,22 +1,23 @@
 return {
 	"ibhagwan/fzf-lua",
-	cmd = "FzfLua", -- Allows lazy loading if invoked via command line
+	cmd = "FzfLua",
 	opts = {
 		files = {
 			cwd_prompt = false,
 			git_icons = true,
-			hidden = true,
+			formatter = "path.filename_first",
 		},
 		grep = {
 			cwd_prompt = false,
-			hidden = true,
+			git_icons = true,
+			rg_opts = [[--column --line-number --no-heading --color=always --hidden --smart-case --max-columns=4096 -g "!.git" -g "!node_modules" -e]],
 		},
 	},
 	keys = {
 		{ "<leader><leader>", "<cmd>FzfLua buffers<cr>", desc = "Search open buffers" },
 		{ "<leader>f", "<cmd>FzfLua files<cr>", desc = "Search files" },
 		{ "<leader>so", "<cmd>FzfLua oldfiles<cr>", desc = "Search oldfiles" },
-		{ "<leader>sg", "<cmd>FzfLua live_grep<cr>", desc = "Search grep live" },
+		{ "<leader>sl", "<cmd>FzfLua live_grep<cr>", desc = "Search grep live" },
 		{ "<leader>su", "<cmd>FzfLua undotree<cr>", desc = "Search undo tree" },
 		{ "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Search jumps" },
 		{ "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Search help tags" },
