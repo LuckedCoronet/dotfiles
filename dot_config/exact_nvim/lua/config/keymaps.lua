@@ -3,9 +3,7 @@ local map = vim.keymap.set
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlights", silent = true })
 map({ "n", "x" }, "<leader>p", '"_dP', { desc = "Paste without copying", silent = true })
 
-map("n", "<leader>d", function()
-	vim.diagnostic.open_float({ scope = "cursor" })
-end, { desc = "Show diagnostic under cursor" })
+map("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostics window" })
 
 -- Exit to normal mode
 map("i", "fj", "<Esc>", { desc = "Exit insert mode" })

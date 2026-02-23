@@ -50,25 +50,31 @@ vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
 
+-- Configure diagnostics
 vim.diagnostic.config({
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
 	virtual_text = {
 		severity = vim.diagnostic.severity.ERROR,
 		source = "if_many",
 	},
 	signs = {
-		severity = { min = vim.diagnostic.severity.WARN },
+		severity = { min = vim.diagnostic.severity.HINT },
 		text = {
 			[vim.diagnostic.severity.ERROR] = "",
 			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "󰋼",
+			[vim.diagnostic.severity.HINT] = "󰌵",
 		},
 		linehl = {
 			[vim.diagnostic.severity.ERROR] = "DiagnosticVirtualTextError",
 		},
 	},
-	underline = true,
-	update_in_insert = false,
-	severity_sort = true,
 	float = {
-		border = "rounded",
+		scope = "line",
+		source = "if_many",
+		header = "",
+		prefix = "- ",
 	},
 })
