@@ -1,5 +1,6 @@
 -- [[ UI & Windows ]]
 
+vim.o.winborder = "rounded"
 vim.opt.title = true
 vim.opt.titlestring = "nvim"
 vim.opt.signcolumn = "yes"
@@ -48,3 +49,26 @@ vim.opt.undofile = true
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
+
+vim.diagnostic.config({
+	virtual_text = {
+		severity = vim.diagnostic.severity.ERROR,
+		source = "if_many",
+	},
+	signs = {
+		severity = { min = vim.diagnostic.severity.WARN },
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+		},
+		linehl = {
+			[vim.diagnostic.severity.ERROR] = "DiagnosticVirtualTextError",
+		},
+	},
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+	float = {
+		border = "rounded",
+	},
+})

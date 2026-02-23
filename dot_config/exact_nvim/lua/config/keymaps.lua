@@ -4,7 +4,7 @@ map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear highlights", silent = t
 map({ "n", "x" }, "<leader>p", '"_dP', { desc = "Paste without copying", silent = true })
 
 map("n", "<leader>d", function()
-	vim.diagnostic.open_float(0, { scope = "cursor" })
+	vim.diagnostic.open_float({ scope = "cursor" })
 end, { desc = "Show diagnostic under cursor" })
 
 -- Exit to normal mode
