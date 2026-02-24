@@ -1,36 +1,39 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- [[ Options ]]
+
+vim.o.updatetime = 250
+vim.o.timeoutlen = 400
+vim.o.foldenable = false
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.inccommand = "split"
 vim.o.undofile = false
 vim.o.swapfile = false
 vim.o.backup = false
 vim.o.writebackup = false
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.timeoutlen = 400
-vim.o.inccommand = "split"
 
--- Disable code folding completely
-vim.o.foldenable = false
-vim.o.foldmethod = "manual"
-vim.o.foldlevel = 99
-
--- Sync clipboard with OS
 vim.schedule(function()
-	vim.o.clipboard = "unnamedplus"
+	vim.o.clipboard = "unnamedplus" -- Syncs clipboard with OS
 end)
 
--- Highlight when yanking (copying) text
+-- [[ Keymaps ]]
+
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { silent = true })
+vim.keymap.set({ "n", "x" }, "<leader>p", '"_dP', { silent = true })
+
+-- [[ Autocmds ]]
+
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	desc = "Highlight on yank",
+	group = vim.api.nvim_create_augroup("HighlightYank", { clear = true }),
 	callback = function()
 		vim.hl.on_yank()
 	end,
 })
 
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { silent = true })
-vim.keymap.set({ "n", "x" }, "<leader>p", '"_dP', { silent = true })
+-- [[ VSCode-specific ]]
 
 if vim.g.vscode then
 	local code = require("vscode")
@@ -48,28 +51,29 @@ if vim.g.vscode then
 
 	-- Workaround for vscode-neovim UI desync (issue #2117)
 
-	-- 1. Redraw on CursorHold (idle for some time)
-	local redraw_fix = vim.api.nvim_create_augroup("VSCodeRedrawFix", { clear = true })
+	local redraw_fix_augroup = vim.api.nvim_create_augroup("VSCodeRedrawFix", { clear = true })
+
+	-- Redraw on CursorHold
 	vim.api.nvim_create_autocmd("CursorHold", {
-		group = redraw_fix,
+		group = redraw_fix_augroup,
 		callback = function()
-			vim.cmd("silent! mode") -- triggers a lightweight redraw
+			vim.cmd("silent! mode")
 		end,
 	})
 
-	-- 2. Redraw immediately after text changes (e.g., visual delete)
-	local redraw_group = vim.api.nvim_create_augroup("RedrawOnDelete", { clear = true })
+	-- Redraw immediately after text changes
 	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
-		group = redraw_group,
+		group = redraw_fix_augroup,
 		callback = function()
 			if vim.fn.mode() == "n" then
-				vim.cmd("silent! mode") -- refresh UI after delete/insert
+				vim.cmd("silent! mode")
 			end
 		end,
 	})
 end
 
--- Setup plugin manager
+-- [[ Setup Plugins ]]
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -86,10 +90,31 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Setup plugins
 require("lazy").setup({
-	{
-		"echasnovski/mini.surround",
-		opts = {},
+	spec = {
+		{ import = "plugins" },
+	},
+	checker = {
+		enabled = false,
+	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"editorconfig",
+				"gzip",
+				"man",
+				"matchparen",
+				"netrwPlugin",
+				"osc52",
+				"rplugin",
+				"spellfile",
+				"tarPlugin",
+				"tohtml",
+				"tohtml",
+				"tutor",
+				"tutor",
+				"zipPlugin",
+			},
+		},
 	},
 })
