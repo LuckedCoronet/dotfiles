@@ -110,8 +110,6 @@ require("lazy").setup({
 				"spellfile",
 				"tarPlugin",
 				"tohtml",
-				"tohtml",
-				"tutor",
 				"tutor",
 				"zipPlugin",
 			},
